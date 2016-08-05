@@ -19,8 +19,7 @@ class GCM {
         );
  
         $headers = array(
-            // 'Authorization: key=' . GOOGLE_API_KEY, 
-            'Authorization: key=AIzaSyB6aNfcklVnL2q96mcabAmiefESSJt09KY', 
+            'Authorization: key=AIzaSyAPyXLoQhCGYD00djh2lQMI-PlRI-Mq02M', 
             'Content-Type: application/json'
         );
         // Open connection
@@ -44,6 +43,7 @@ class GCM {
         // Close connection
         curl_close($ch);
         //echo $result;
+        //die();
     }
  
 }

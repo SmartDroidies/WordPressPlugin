@@ -13,7 +13,7 @@ define('SMARTPUSH_PLUGIN_DIR',plugin_dir_path( __FILE__ ));
  
 require_once(SMARTPUSH_PLUGIN_DIR . 'GCM.php');
 require_once(SMARTPUSH_PLUGIN_DIR . 'FCM.php');
- 
+
  /* Method to send push notification */
 function sd_push($post_ID) {
 
@@ -22,17 +22,16 @@ function sd_push($post_ID) {
     $title = $post->post_title;
     if(isset($title) && isset($post) & isset($permalink)) {
         $gcm = new GCM();
-        $message = array("text" => "5000+ Tamil Kuripugal", "title" => $title, "extra" => $post_ID);
-        //$result = $gcm->send_notification($message);
-
+        $message = array("title" => "Health Tip", "text" => $title, "extra" => $post_ID);
+        $result = $gcm->send_notification($message);
 
         $fcm = new FCM();
-        $data = array("id" => $post_ID);
-        $notification = array("body" => $title, "title" => "5000+ Tamil Kuripugal", "icon" => "kuripugal");
+        $data = array("body" => $title, "title" => "Health Tip", "id" => $post_ID);
+        //$notification = array("body" => $title, "title" => "5000+ Tamil Kuripugal", "icon" => "icon");
 
         $resultFCM = $fcm->send_notification($data, $notification);
 
-        echo $result; 
+        //echo $result; 
         //exit(0);
     }
     return $post_ID;

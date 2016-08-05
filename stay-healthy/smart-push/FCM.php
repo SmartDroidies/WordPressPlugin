@@ -1,6 +1,6 @@
 <?php
 
-class GCM {
+class FCM {
  
     //put your code here
     // constructor
@@ -10,17 +10,17 @@ class GCM {
     /**
      * Sending Push Notification
      */
-    public function send_notification($message) {
+    public function send_notification($data, $notification) {
         // Set POST variables
-        $url = 'https://gcm-http.googleapis.com/gcm/send';
+        $url = 'https://fcm.googleapis.com/fcm/send';
         $fields = array(
             'to' => "/topics/global",
-            'data' => $message
+            'data' => $data
+            /* 'notification' => $notification */
         );
  
         $headers = array(
-            // 'Authorization: key=' . GOOGLE_API_KEY, 
-            'Authorization: key=AIzaSyB6aNfcklVnL2q96mcabAmiefESSJt09KY', 
+            'Authorization: key=AIzaSyDUjwKRS_X0-PUp66a_7M6ZMg87AR0i4xY', 
             'Content-Type: application/json'
         );
         // Open connection
@@ -44,6 +44,7 @@ class GCM {
         // Close connection
         curl_close($ch);
         //echo $result;
+        //die();
     }
  
 }
