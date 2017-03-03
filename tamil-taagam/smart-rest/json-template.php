@@ -1,11 +1,8 @@
 <?php
 
-smartrest_do_json($category);
+smartrest_do_json();
 
-function smartrest_do_json($category) {
-	if (!isset($category)) {
-		$category = "-5";
-	}
+function smartrest_do_json() {
 
 	$lastAccessTime = $_GET['ts'];
     $tipId = $_GET['id'];
@@ -17,8 +14,8 @@ function smartrest_do_json($category) {
 	} else if(isset($lastAccessTime)) {
 		//echo json_encode(date('Y-m-d h:i:s', $lastAccessTime));
 		$args = array ( 'post_status' => 'publish', 'posts_per_page' => '500', 'orderby' => 'modified', 'date_query' => array(array('after' => date('Y-m-d h:i:s', $lastAccessTime))));
-        } else if(isset($tipId)) {
-		$args = array ( 'post_status' => 'publish', 'p' => $tipId);	
+    } else if(isset($tipId)) {
+		$args = array ( 'p' => $tipId, 'posts_per_page' => '5', 'orderby' => 'modified');	
 	} else {	
 		$args = array ( 'post_status' => 'publish', 'posts_per_page' => '500', 'orderby' => 'modified');	
 	}
