@@ -6,11 +6,14 @@ function smartrest_do_json() {
 
         $code = $_GET['cd'];
         $category = $_GET['ct'];   
+	$id = $_GET['id'];   
         $test = $_GET['td'];   
  
 	$args = array ( 'post_status' => 'publish', 'posts_per_page' => '100', 'orderby' => 'date', 'order' => 'ASC');
 
-    	//print_r($args);
+	if(isset($id)) {
+	  $args['p'] = $id; 
+	}
 
 	if(isset($category)) {
 	  $args['category_name'] = $category; 
@@ -20,23 +23,7 @@ function smartrest_do_json() {
 	  $args['post_status'] = array( 'publish', 'draft'); 
 	}
 
-	//print_r($args);
-        /*
-	// WP_Query arguments
-	if(isset($lastAccessTime) && is_numeric($lastAccessTime)) {
-		$since = date('Y-m-d h:i:s', $lastAccessTime);
-		$args = array ( 'post_status' => 'publish', 'posts_per_page' => '500', 'orderby' => 'date', 'order' => 'ASC', 'date_query' => array(array('after' => date('Y-m-d h:i:s', $lastAccessTime))));
-        } else if(isset($tipId)) {
-		$args = array ( 'post_status' => 'publish', 'p' => $tipId);	
-        } else if(isset($category)) {
-		$args = array ( 'post_status' => 'publish', 'posts_per_page' => '500', 'orderby' => 'date', 
-'order' => 'ASC', 'paged' => $paged, 'cat' => $category);	
-        } else if(isset($idb)) {
-		$args = array ( 'post_status' => 'publish', 'posts_per_page' => '500', 'orderby' => 'date', 'order' => 'ASC', 'paged' => $paged);	
-	} else {	
-		$args = array ( 'post_status' => 'publish', 'posts_per_page' => '500', 'orderby' => 'date', 'order' => 'ASC', 'paged' => $paged, 'date_query' => array(array('after' => 'August 1st, 2015',)));	
-	}
-        */
+    	//print_r($args);
 
         // The Query
 	$query = new WP_Query($args);
@@ -54,41 +41,30 @@ function smartrest_do_json() {
 	   //Collect Question type and choices
 	   $custom_fields = get_post_custom();
 	   foreach ( $custom_fields as $key => $value ) {
+		$key = ''; $icon = ''; $type = ''; $priority = '';
 		if($key == 'code') {
 		   $code =  $value[0];	
 		} else if($key == 'priority') {
 		   $priority =  $value[0];	
 		} else if($key == 'type') {
 		   $type =  $value[0];
+		} else if($key == 'icon') {
+		   $icon =  $value[0];
 		}	
-		
 	    	/* echo $key . " => " . $value[0] . "<br />"; */
 	   }
 
-	   $results[] = array("id"=>get_the_ID(), "title"=>get_the_title(), "post_date"=>get_post_time(), "code"=>$code, "priority"=>$priority, "type"=>$type, "category"=> $arrCatId[0],"content"=> get_the_content());
+           if($id) {
+		   $results[] = array("id"=>get_the_ID(), "title"=>get_the_title(), "post_date"=>get_post_time(), "status"=>get_post_status(), "code"=>$code, "priority"=>$priority, "type"=>$type, "category"=> $arrCatId[0],"content"=> get_the_content(), "thumb"=>  get_the_post_thumbnail(get_the_ID(), 'thumbnail' ), "icon" => $icon);
+           } else {
+		   $results[] = array("id"=>get_the_ID(), "title"=>get_the_title(), "post_date"=>get_post_time(), "status"=>get_post_status(), "code"=>$code, "priority"=>$priority, "type"=>$type, "category"=> $arrCatId[0], "thumb"=>  get_the_post_thumbnail(get_the_ID(), 'thumbnail' ), "icon" => $icon);
+           }
 	}
 	//print_r($results);
 	write_header();
  	//$response = array($results); 	
 	echo json_encode($results); 
-         
 
-	/*
-	$lastAccessTime = $_GET['ts'];
-        $type = $_GET['type'];
-        $date = $_GET['date'];
-
-	if($type == 'raasi') {
-		//echo("Collect Raasi Details for : " . $date);	
-	      	$args = array ( 'post_status' => 'publish', 'name' => $date);	
-                //$args = array ( 'post_status' => 'publish');	
-		// The Query
-		$query = new WP_Query( $args );
-                $query->the_post();
-		write_header();
-		echo json_encode(get_the_content()); 
-        }
-        */
 }
 
 //Send Header
