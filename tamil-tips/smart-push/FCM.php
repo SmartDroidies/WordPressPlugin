@@ -10,11 +10,9 @@ class FCM {
     /**
      * Sending Push Notification
      */
-    public function send_notification($data, $notification, $category) {
+    public function send_notification($data, $notification) {
         // Set POST variables
         $url = 'https://fcm.googleapis.com/fcm/send';
-        //$topic = "/topics/" . $category;
-        //$topic = "/topics/global";
 
         $fields = array(
             'to' => "/topics/global",

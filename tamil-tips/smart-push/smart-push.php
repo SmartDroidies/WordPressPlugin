@@ -27,8 +27,8 @@ function sd_push($post_ID) {
 
 
         $fcm = new FCM();
-        $data = array("id" => $post_ID);
-        $notification = array("body" => $title, "title" => "5000+ Tamil Kuripugal", "icon" => "kuripugal");
+        $data = array("body" => $title, "title" => "5000+ Tamil Kuripugal", "id" => $post_ID);
+        //$notification = array("body" => $title, "title" => "5000+ Tamil Kuripugal", "icon" => "kuripugal");
 
         $resultFCM = $fcm->send_notification($data, $notification);
 
