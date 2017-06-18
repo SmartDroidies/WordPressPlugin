@@ -10,15 +10,16 @@ class FCM {
     /**
      * Sending Push Notification
      */
-    public function send_notification($data, $notification) {
+    public function send_notification($data, $category_slug) {
         // Set POST variables
         $url = 'https://fcm.googleapis.com/fcm/send';
+        $topic = "/topics/".$category_slug;
 
         $fields = array(
-            'to' => "/topics/global",
+            /* 'to' => "/topics/global", */
+            'condition' => "'" . $category_slug . "' in topics || 'global' in topics",
             'data' => $data
         );
-
         $headers = array(
             'Authorization: key=AIzaSyCTddNtg_zJE_U0dJlhUfsd0hqwYmzW-Zg', 
             'Content-Type: application/json'
