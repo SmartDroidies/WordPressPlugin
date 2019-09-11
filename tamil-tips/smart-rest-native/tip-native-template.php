@@ -37,9 +37,12 @@ function smartrest_do_json_native_tip() {
 			//echo $postimage;
 	   }
 
-		
 	   $accesstime = get_post_time();
-	   $result[] = array("kurippuId"=>get_the_ID(), "title"=>get_the_title(), "postDate"=>get_post_time(), "updatedDate"=>get_the_modified_time('U'), "category"=> $arrCatId[0], "status" => get_post_status(), "image" => $postimage, "content" => get_the_content() );
+	   if(isset($tipIds)) {
+	   		$result[] = array("kurippuId"=>get_the_ID(), "title"=>get_the_title(), "postDate"=>get_post_time(), "updatedDate"=>get_the_modified_time('U'), "category"=> $arrCatId[0], "status" => get_post_status(), "image" => $postimage, "content" => get_the_content() );
+	   } else {
+	   		$result = array("kurippuId"=>get_the_ID(), "title"=>get_the_title(), "postDate"=>get_post_time(), "updatedDate"=>get_the_modified_time('U'), "category"=> $arrCatId[0], "status" => get_post_status(), "image" => $postimage, "content" => get_the_content() );
+	   } 	
 	}
 	write_header();
     echo json_encode($result); 
